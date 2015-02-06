@@ -1,7 +1,7 @@
 <?php
 define('DS', DIRECTORY_SEPARATOR);
 define('APP_ROOT', dirname(dirname(__FILE__)) . DS);
-define('URL_ROOT', dirname(dirname($_SERVER['SCRIPT_NAME'])) . "/");
+define('URL_ROOT', dirname(dirname($_SERVER['SCRIPT_NAME'])));
 define('CONTROLLER_DIR',APP_ROOT . "controller" . DS);
 define('MODEL_DIR',	APP_ROOT . "model" . DS);
 define('VIEW_DIR',	APP_ROOT . "view" . DS);
