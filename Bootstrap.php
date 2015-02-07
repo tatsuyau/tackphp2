@@ -41,7 +41,7 @@ class Bootstrap{
 	protected function _check(){
 		$controller_name = $this->controller_name;
 		$action_name	= $this->action_name;
-		if($controller_name == "base")	return "CAN'T CALL CLASS: " . ucwords($controller_name);
+		if($controller_name == "base" || $controller_name == "scaffold")	return "CAN'T CALL CLASS: " . ucwords($controller_name);
 		if($action_name == "before" || $action_name == "after")	return "CAN'T CALL METHOD: " . $action_name . "()";
 		$controller_file = CONTROLLER_DIR . ucwords($controller_name) . "Controller.php";
 		if(!file_exists($controller_file))	return "CLASS FILE NOT FOUND: " . $controller_file;
