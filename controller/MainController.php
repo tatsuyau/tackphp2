@@ -1,14 +1,10 @@
 <?php
-class MainController extends Controller{
+class MainController extends BaseController{
 	public function __construct(){
 		parent::__construct();
-		$this->Model	= new Model();
 	}
-	public function index(){
-		$this->render();
-	}
-	public function view($message="hi!"){
+	public function index($message="Hello"){
 		$this->set("message", $message);
-		$this->render("main/message");
+		$this->render();
 	}
 }

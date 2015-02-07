@@ -3,7 +3,7 @@
 class database{
 	protected $config = array(
 		'develop' => array(
-			'type'	=> 'mysql',
+			'type'	=> 'mysqli',
 			'dbname'=> 'tackphp',
 			'host'	=> 'localhost',
 			'user'	=> 'root',
@@ -23,10 +23,11 @@ class database{
 			$res	= $dbh->exec("SET NAMES " . $config['encoding']);
 			$this->dbh	= $dbh;
 		}catch(PDOException $e){
-			throw new Exception($e->getMessage());
+			return false;
 		}
 	}
 	public function execQuery($sql, $params=array()){
+		if(!$this->dbh)	throw new Exception("CAN'T CONNECT DATABASE");
 		$params	= $this->_optimize($params);
 		try{
 			$stmt	= $this->dbh->prepare($sql);

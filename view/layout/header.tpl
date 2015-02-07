@@ -9,8 +9,9 @@
 
 		<div class="collapse navbar-collapse target">
 			<ul class="nav navbar-nav">
-				<li><a href="<?php Html::path("main/index"); ?>">LINK1</a></li>
-				<li><a href="<?php Html::path("main/view/hello"); ?>">LINK2</a></li>
+				<li><a href="<?php Html::path("/sample"); ?>">scaffold</a></li>
+				<li><a href="http://tackphp.jp/" target="_blank">tackphp.jp</a></li>
+				<li><a href="https://github.com/tatsuyau/tackphp2" target="_blank">github</a></li>
 			</ul>
 		</div>
 	</div>

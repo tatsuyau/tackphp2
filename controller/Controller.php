@@ -5,8 +5,12 @@ class Controller{
 	public $action_name;
 	public $debug_list = array();
 	protected $_set_list = array();
+
+	protected $Request;
 	public function __construct(){
 		$this->layout	= LAYOUT_DIR . "default.tpl";
+
+		$this->Request	= new Request();
 	}
 	public function before(){
 	}
@@ -31,5 +35,14 @@ class Controller{
 				$this->debug_list[$key]	= $val;
 			}
 		}
+	}
+	protected function redirect($url){
+		$url	= URL_ROOT . $url;
+		header("Location: " . $url);
+		exit;
+	}
+	protected function error($message=null){
+		if(!$message)	$message	= "ERROR Called.";
+		throw new Exception($message);
 	}
 }

@@ -37,5 +37,3 @@ require_once APP_ROOT . "Bootstrap.php";
 
 $Bootstrap = new Bootstrap();
 $Bootstrap->dispatch();
-
-dump($_SERVER);
