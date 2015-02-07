@@ -35,5 +35,6 @@ require_once APP_ROOT . "database.php";
 require_once APP_ROOT . "Bootstrap.php";
 
 
+var_dump($_SERVER['REQUEST_URI']);
 $Bootstrap = new Bootstrap();
 $Bootstrap->dispatch();
