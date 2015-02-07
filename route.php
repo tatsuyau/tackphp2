@@ -1,4 +1,7 @@
 <?php
+/*
+* すみません。これはまだ未完成です。。。
+*/
 class Route{
 	public static $list = array(
 		"/"	=> "main/index",

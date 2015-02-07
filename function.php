@@ -1,4 +1,7 @@
 <?php
+/*
+* よく使うようなシンプルな関数はこちらへ
+*/
 function h($str){
 	echo htmlspecialchars($str);
 }
