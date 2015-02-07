@@ -1,13 +1,16 @@
 <?php
 define('DS', DIRECTORY_SEPARATOR);
 define('APP_ROOT', dirname(dirname(__FILE__)) . DS);
-define('URL_ROOT', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+//define('URL_ROOT', dirname($_SERVER['SCRIPT_NAME']));
+// んーこうしないとサブディレクトリに対応できないなー
+define('URL_ROOT', "");	
 define('CONTROLLER_DIR',APP_ROOT . "controller" . DS);
 define('MODEL_DIR',	APP_ROOT . "model" . DS);
 define('VIEW_DIR',	APP_ROOT . "view" . DS);
 define('LIB_DIR',	APP_ROOT . "lib" . DS);
 define('LAYOUT_DIR',	VIEW_DIR . "layout" . DS);
 define('STAGE',		require_once(APP_ROOT . "stage.php"));
+
 
 function classAutoload($class_name){
 	$controller_file = CONTROLLER_DIR . $class_name . ".php";
@@ -35,6 +38,5 @@ require_once APP_ROOT . "database.php";
 require_once APP_ROOT . "Bootstrap.php";
 
 
-var_dump($_SERVER['REQUEST_URI']);
 $Bootstrap = new Bootstrap();
 $Bootstrap->dispatch();
