@@ -6,10 +6,12 @@ class Controller{
 	public $debug_list = array();
 	protected $_set_list = array();
 
+	protected $Model;
 	protected $Request;
 	public function __construct(){
 		$this->layout	= LAYOUT_DIR . "default.tpl";
 
+		$this->Model	= new Model();
 		$this->Request	= new Request();
 	}
 	public function before(){

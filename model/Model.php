@@ -1,11 +1,14 @@
 <?php
 class Model{
+	public $is_connect;
 	protected $db;
 	protected $table_name;
-	protected $is_connect;
 	public function __construct(){
 		$this->db	= new database();
 		$this->is_connect	= $this->db->connect(STAGE);
+		if($this->is_connect){
+			$this->_createTable();
+		}
 	}
 	public function getList($params=array()){
 		$sql	= $this->_createSelectSql($params);
@@ -52,6 +55,19 @@ class Model{
 	}
 	public function rollback(){
 		$this->db->rollback();
+	}
+	protected function _createTable(){
+		if(empty($this->columns))	return ;
+		$sql	= "CREATE TABLE IF NOT EXISTS " . $this->_getTableName() . " ( ";
+		$i	= 0;
+		foreach($this->columns as $key => $val){
+			if($i)	$sql .= ", ";
+			$sql	.= $key . " " . $val;
+			$i++;
+		}
+		$sql	.= ") engine=InnoDB ";
+		$res	= $this->db->execQuery($sql);
+		return $res;
 	}
 	protected function _getTableName(){
 		if(!empty($this->table_name))	return $this->table_name;

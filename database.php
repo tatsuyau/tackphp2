@@ -25,6 +25,7 @@ class database{
 		}catch(PDOException $e){
 			return false;
 		}
+		return true;
 	}
 	public function execQuery($sql, $params=array()){
 		if(!$this->dbh)	throw new Exception("CAN'T CONNECT DATABASE");
