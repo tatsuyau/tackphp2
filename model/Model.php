@@ -42,14 +42,7 @@ class Model{
 		return $res ? $res['id'] : null;
 	}
 	public function getColumnList(){
-		$result	= array();
-		$sql	= "SELECT * FROM " . $this->_getTableName();
-		$this->db->execQuery($sql);
-		$res	= $this->db->fetch();
-		foreach($res as $key => $val){
-			$result[]	= $key;
-		}
-		return $result;
+		return $this->db->getColumnList($this->_getTableName());
 	}
 	public function beginTransaction(){
 		$this->db->beginTransaction();

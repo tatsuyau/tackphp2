@@ -3,7 +3,7 @@
 class database{
 	protected $config = array(
 		'develop' => array(
-			'type'	=> 'mysqli',
+			'type'	=> 'mysql',
 			'dbname'=> 'tackphp',
 			'host'	=> 'localhost',
 			'user'	=> 'root',
@@ -44,6 +44,16 @@ class database{
 	}
 	public function fetch(){
 		return $this->stmt->fetch();
+	}
+	public function getColumnList($table_name){
+		if(!$this->dbh)	return array();
+		$result	= array();
+		$stmt	= $this->dbh->query("SELECT * FROM " . $table_name . " LIMIT 0");
+		for($i=0; $i<$stmt->columnCount(); $i++){
+			$meta	= $stmt->getColumnMeta($i);
+			$result[]	= $meta['name'];
+		}
+		return $result;
 	}
 	protected function _optimize($params){
 		$res	= array();
