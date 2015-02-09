@@ -7,10 +7,13 @@ define('URL_ROOT', "");
 define('CONTROLLER_DIR',APP_ROOT . "controller" . DS);
 define('MODEL_DIR',	APP_ROOT . "model" . DS);
 define('VIEW_DIR',	APP_ROOT . "view" . DS);
-define('LIB_DIR',	APP_ROOT . "lib" . DS);
+define('LIB_DIR',	APP_ROOT . "mylib" . DS);
+define('COMPOSER_DIR',	APP_ROOT . "vendor" . DS);
 define('LAYOUT_DIR',	VIEW_DIR . "layout" . DS);
 define('STAGE',		require_once(APP_ROOT . "stage.php"));
 
+// composer
+// require COMPOSER . 'autoload.php';
 
 function classAutoload($class_name){
 	$controller_file = CONTROLLER_DIR . $class_name . ".php";
@@ -36,7 +39,6 @@ require_once APP_ROOT . "function.php";
 require_once APP_ROOT . "route.php";
 require_once APP_ROOT . "database.php";
 require_once APP_ROOT . "Bootstrap.php";
-
 
 $Bootstrap = new Bootstrap();
 $Bootstrap->dispatch();

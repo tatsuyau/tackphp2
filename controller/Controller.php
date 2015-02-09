@@ -1,4 +1,5 @@
 <?php
+
 class Controller{
 	public $layout;
 	public $controller_name;
