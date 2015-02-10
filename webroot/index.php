@@ -3,7 +3,7 @@ define('DS', DIRECTORY_SEPARATOR);
 define('APP_ROOT', dirname(dirname(__FILE__)) . DS);
 //define('URL_ROOT', dirname($_SERVER['SCRIPT_NAME']));
 // んーこうしないとサブディレクトリに対応できないなー
-define('URL_ROOT', "");	
+define('URL_ROOT', "/tackphp");	
 define('CONTROLLER_DIR',APP_ROOT . "controller" . DS);
 define('MODEL_DIR',	APP_ROOT . "model" . DS);
 define('VIEW_DIR',	APP_ROOT . "view" . DS);

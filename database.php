@@ -8,11 +8,37 @@ class database{
 			'host'	=> 'localhost',
 			'user'	=> 'root',
 			'password' => 'vagrant',
+			'table_prefix'	=> "tackphp_",
 			'encoding' => 'utf8',
 		),
 	);
+	public static $_instance = array();
+	public $is_connect = false;
+	protected $info;
 	protected $dbh;
 	protected $stmt;
+	public function __construct($config_key){
+		if(empty($this->config[$config_key]))	return false;
+		$config	= $this->config[$config_key];
+		try{
+			$dsn	= $config['type'] . ":host=" . $config['host'] . ";dbname=" . $config['dbname'];
+			$dbh	= new PDO($dsn, $config['user'], $config['password']);
+			$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$res	= $dbh->exec("SET NAMES " . $config['encoding']);
+			$this->dbh	= $dbh;
+			$this->info	= $config;
+			$this->is_connect	= true;
+		}catch(PDOException $e){
+			$this->is_connect	= false;
+		}
+	}
+	public static function getInstance($id){
+		if(empty(self::$_instance[$id])){
+			self::$_instance[$id]	= new database($id);
+		}
+		return self::$_instance[$id];
+	}
+	/*
 	public function connect($config_key){
 		if(empty($this->config[$config_key]))	return false;
 		$config	= $this->config[$config_key];
@@ -22,11 +48,13 @@ class database{
 			$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$res	= $dbh->exec("SET NAMES " . $config['encoding']);
 			$this->dbh	= $dbh;
+			$this->info	= $config;
 		}catch(PDOException $e){
 			return false;
 		}
 		return true;
 	}
+	*/
 	public function execQuery($sql, $params=array()){
 		if(!$this->dbh)	throw new Exception("CAN'T CONNECT DATABASE");
 		$params	= $this->_optimize($params);
@@ -46,6 +74,18 @@ class database{
 	public function fetch(){
 		return $this->stmt->fetch();
 	}
+	public function getLastInsertId(){
+		return $this->dbh->lastInsertId();
+	}
+	public function beginTransaction(){
+		return $this->dbh->beginTransaction();
+	}
+	public function commit(){
+		return $this->dbh->commit();
+	}
+	public function rollback(){
+		return $this->dbh->rollback();
+	}
 	public function getColumnList($table_name){
 		if(!$this->dbh)	return array();
 		$result	= array();
@@ -55,6 +95,9 @@ class database{
 			$result[]	= $meta['name'];
 		}
 		return $result;
+	}
+	public function getInfo(){
+		return $this->info;
 	}
 	protected function _optimize($params){
 		$res	= array();

@@ -48,4 +48,13 @@ class Controller{
 		if(!$message)	$message	= "ERROR Called.";
 		throw new Exception($message);
 	}
+	protected function begin(){
+		return $this->Model->beginTransaction();
+	}
+	protected function commit(){
+		return $this->Model->commit();
+	}
+	protected function rollback(){
+		return $this->Model->rollback();
+	}
 }

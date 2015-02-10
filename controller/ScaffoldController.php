@@ -29,7 +29,9 @@ class ScaffoldController extends Controller{
 	public function edit($id){
 		$primary_key	= $this->_getPrimaryKey();
 		if($this->Request->hasPost()){
+			$this->begin();
 			$res	= $this->ScaffoldModel->setData($this->Request->getParams("POST"), array($primary_key=> $id));
+			$this->commit();
 		}
 		$data	= $this->ScaffoldModel->getData(array($primary_key => $id));
 		if(!$data)	$this->error();

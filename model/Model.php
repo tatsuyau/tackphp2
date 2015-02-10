@@ -4,8 +4,9 @@ class Model{
 	protected $db;
 	protected $table_name;
 	public function __construct(){
-		$this->db	= new database();
-		$this->is_connect	= $this->db->connect(STAGE);
+		//$this->db	= new database(STAGE);
+		$this->db	= database::getInstance(STAGE);
+		$this->is_connect	= $this->db->is_connect;
 		if($this->is_connect){
 			$this->_createTable();
 		}
@@ -24,12 +25,14 @@ class Model{
 	}
 	public function addData($params){
 		$sql	= $this->_createInsertSql($params);
-		return $this->db->execQuery($sql, $params);
+		$res	= $this->db->execQuery($sql, $params);
+		return $res;
 	}
 	public function setData($updates, $conditions){
 		$sql	= $this->_createUpdateSql($updates, $conditions);
 		$params	= array_merge($updates, $conditions);
-		return $this->db->execQuery($sql, $params);
+		$res	= $this->db->execQuery($sql, $params);
+		return $res;
 	}
 	public function deleteData($params){
 		$sql	= $this->_createDeleteSql($params);
@@ -39,22 +42,19 @@ class Model{
 		return $this->db;
 	}
 	public function getLastInsertId(){
-		$sql	= "SELECT last_insert_id() as id ";
-		$this->db->execQuery($sql);
-		$res	= $this->db->fetch();
-		return $res ? $res['id'] : null;
+		return $this->db->getLastInsertId();
 	}
 	public function getColumnList(){
 		return $this->db->getColumnList($this->_getTableName());
 	}
 	public function beginTransaction(){
-		$this->db->beginTransaction();
+		return $this->db->beginTransaction();
 	}
 	public function commit(){
-		$this->db->commit();
+		return $this->db->commit();
 	}
 	public function rollback(){
-		$this->db->rollback();
+		return $this->db->rollback();
 	}
 	protected function _createTable(){
 		if(empty($this->columns))	return ;
@@ -71,7 +71,8 @@ class Model{
 	}
 	protected function _getTableName(){
 		if(!empty($this->table_name))	return $this->table_name;
-		$table_name = "";
+		$db_info = $this->db->getInfo();
+		$table_name = $db_info['table_prefix'];
 		$class_name = get_class($this);
                 preg_match_all("/[A-Z][a-z]+/",$class_name,$matches_list);
                 foreach($matches_list[0] as $key => $val){
