@@ -4,7 +4,6 @@ class Model{
 	protected $db;
 	protected $table_name;
 	public function __construct(){
-		//$this->db	= new database(STAGE);
 		$this->db	= database::getInstance(STAGE);
 		$this->is_connect	= $this->db->is_connect;
 		if($this->is_connect){

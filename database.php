@@ -38,32 +38,17 @@ class database{
 		}
 		return self::$_instance[$id];
 	}
-	/*
-	public function connect($config_key){
-		if(empty($this->config[$config_key]))	return false;
-		$config	= $this->config[$config_key];
-		try{
-			$dsn	= $config['type'] . ":host=" . $config['host'] . ";dbname=" . $config['dbname'];
-			$dbh	= new PDO($dsn, $config['user'], $config['password']);
-			$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$res	= $dbh->exec("SET NAMES " . $config['encoding']);
-			$this->dbh	= $dbh;
-			$this->info	= $config;
-		}catch(PDOException $e){
-			return false;
-		}
-		return true;
-	}
-	*/
 	public function execQuery($sql, $params=array()){
 		if(!$this->dbh)	throw new Exception("CAN'T CONNECT DATABASE");
 		$params	= $this->_optimize($params);
 		try{
+			SqlLog::set($sql, $params);
 			$stmt	= $this->dbh->prepare($sql);
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			$res	= $stmt->execute($params);
 		}catch(PDOException $e){
-			throw new Exception($e->getMessage());
+			$messag = DEBUG_MODE ? $e->getMessage() : "SYSTEM ERROR";
+			throw new Exception($message);
 		}
 		$this->stmt	= $stmt;
 		return $res;

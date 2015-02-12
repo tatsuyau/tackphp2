@@ -36,7 +36,6 @@ spl_autoload_register('classAutoload');
 
 require_once APP_ROOT . "config.php";
 require_once APP_ROOT . "function.php";
-require_once APP_ROOT . "route.php";
 require_once APP_ROOT . "database.php";
 require_once APP_ROOT . "Bootstrap.php";
 

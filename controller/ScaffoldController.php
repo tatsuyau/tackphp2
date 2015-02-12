@@ -28,9 +28,9 @@ class ScaffoldController extends Controller{
 	}
 	public function edit($id){
 		$primary_key	= $this->_getPrimaryKey();
-		if($this->Request->hasPost()){
+		if(Request::hasPost()){
 			$this->begin();
-			$res	= $this->ScaffoldModel->setData($this->Request->getParams("POST"), array($primary_key=> $id));
+			$res	= $this->ScaffoldModel->setData(Request::getParams("POST"), array($primary_key=> $id));
 			$this->commit();
 		}
 		$data	= $this->ScaffoldModel->getData(array($primary_key => $id));
@@ -39,8 +39,8 @@ class ScaffoldController extends Controller{
 		$this->render("scaffold/edit");
 	}
 	public function add(){
-		if($this->Request->hasPost()){
-			$this->ScaffoldModel->addData($this->Request->getParams("POST"));
+		if(Request::hasPost()){
+			$this->ScaffoldModel->addData(Request::getParams("POST"));
 			$this->redirect("/" . $this->controller_name);
 		}
 		$column_list	= $this->ScaffoldModel->getColumnList();

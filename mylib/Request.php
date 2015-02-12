@@ -7,7 +7,7 @@ class Request{
 	hasPost
 	getPosts
 	*/
-	public function getParams($method=null){
+	public static function getParams($method=null){
 		$result	= array();
 		if(!$method || $method == "GET"){
 			foreach((array)$_GET as $key => $val){
@@ -21,9 +21,9 @@ class Request{
 		}
 		return $result;
 	}
-	public function getParam($key_name, $method=null){
+	public static function getParam($key_name, $method=null){
 		$result	= null;
-		$params	= $this->getParams($method);
+		$params	= self::getParams($method);
 		foreach($params as $key => $val){
 			if($key != $key_name) continue;
 			$result	= $val;
@@ -31,13 +31,13 @@ class Request{
 		}
 		return $params;
 	}
-	public function getInt($key_name, $method=null){
-		$result	= $this->getParam($key_name, $method);
+	public static function getInt($key_name, $method=null){
+		$result	= self::getParam($key_name, $method);
 		if(!$result)	return 0;
 		if(!is_numeric($result))	return 0;
 		return $result;
 	}
-	public function hasPost(){
+	public static function hasPost(){
 		return (!empty($_POST)) ? true : false;
 	}
 }

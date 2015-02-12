@@ -8,12 +8,9 @@ class Controller{
 	protected $_set_list = array();
 
 	protected $Model;
-	protected $Request;
 	public function __construct(){
 		$this->layout	= LAYOUT_DIR . "default.tpl";
-
 		$this->Model	= new Model();
-		$this->Request	= new Request();
 	}
 	public function before(){
 	}
@@ -21,16 +18,22 @@ class Controller{
 	}
 	protected function set($key, $val){
 		$this->_set_list[$key]	= $val;
+		JsonApi::set($key, $val);
 	}
 	protected function render($view=null){
 		$this->beforeRender();
 		if(!$view)	$view = $this->controller_name . DS . $this->action_name;
 		$view_file = VIEW_DIR . $view . ".tpl";
-		if(!file_exists($view_file))	throw new Exception("VIEW FILE NOT FOUND: " . $view_file);
+		if(DEBUG_MODE){
+			if(!file_exists($view_file))	throw new Exception("VIEW FILE NOT FOUND: " . $view_file);
+		}
 		foreach($this->_set_list as $key => $val){
 			$$key	= $val;
 		}
 		require_once($this->layout);
+	}
+	protected function jsonRender(){
+		exit(JsonApi::get());
 	}
 	protected function beforeRender(){
 		if(DEBUG_MODE){

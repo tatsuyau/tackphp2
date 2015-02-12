@@ -10,7 +10,10 @@ class Bootstrap{
 		$this->args		= $p['args'];
 		try{
 			$res	= $this->_check();
-			if($res !== true)	throw new Exception($res);
+			if($res !== true){
+				$res	= DEBUG_MODE ? $res : "Page Not Found";
+				throw new Exception($res);
+			}
 			$this->_run();
 		}catch(Exception $e){
 			$this->_error($e->getMessage());
