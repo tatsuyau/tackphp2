@@ -1,6 +1,8 @@
 <?php
 class Model{
 	public $is_connect;
+	public $created = "created";
+	public $modified= "modified";
 	protected $db;
 	protected $table_name;
 	public function __construct(){
@@ -23,11 +25,14 @@ class Model{
 		return $res ? $res : array();
 	}
 	public function addData($params){
+		if($this->created)	$params[$this->created]	= (!empty($params[$this->created])) ? $params[$this->created] : date('Y-m-d H:i:s');
+		if($this->modified)	$params[$this->modified]= (!empty($params[$this->modified])) ? $params[$this->modified] : date('Y-m-d H:i:s');
 		$sql	= $this->_createInsertSql($params);
 		$res	= $this->db->execQuery($sql, $params);
 		return $res;
 	}
 	public function setData($updates, $conditions){
+		if($this->modified)	$updates[$this->modified]	= (!empty($updates[$this->modified])) ? $updates[$this->modified] : date('Y-m-d H:i:s');
 		$sql	= $this->_createUpdateSql($updates, $conditions);
 		$params	= array_merge($updates, $conditions);
 		$res	= $this->db->execQuery($sql, $params);
