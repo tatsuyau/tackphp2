@@ -32,7 +32,8 @@ class Controller{
 		}
 		require_once($this->layout);
 	}
-	protected function jsonRender(){
+	protected function jsonRender($data=null){
+		if($data)	exit(JsonApi::encode($data));
 		exit(JsonApi::get());
 	}
 	protected function beforeRender(){
@@ -46,6 +47,10 @@ class Controller{
 		$url	= URL_ROOT . $url;
 		header("Location: " . $url);
 		exit;
+	}
+	protected function call($code=0){
+		if($code >= 0)	return ;
+		$this->error(ErrorConfig::get($code));
 	}
 	protected function error($message=null){
 		if(!$message)	$message	= "ERROR Called.";

@@ -45,6 +45,7 @@ class database{
 			SqlLog::set($sql, $params);
 			$stmt	= $this->dbh->prepare($sql);
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+			$this->_bind($stmt, $params);
 			$res	= $stmt->execute($params);
 		}catch(PDOException $e){
 			$messag = DEBUG_MODE ? $e->getMessage() : "SYSTEM ERROR";
@@ -54,10 +55,12 @@ class database{
 		return $res;
 	}
 	public function fetchAll(){
-		return $this->stmt->fetchAll();
+		$list	= $this->stmt->fetchAll();
+		return $list ? $list : array();
 	}
 	public function fetch(){
-		return $this->stmt->fetch();
+		$data =  $this->stmt->fetch();
+		return $data ? $data : array();
 	}
 	public function getLastInsertId(){
 		return $this->dbh->lastInsertId();
@@ -83,6 +86,13 @@ class database{
 	}
 	public function getInfo(){
 		return $this->info;
+	}
+	protected function _bind($stmt, $params){
+		foreach($params as $key => $val){
+			$type	= PDO::PARAM_STR;
+			if(is_numeric($val))	$type = PDO::PARAM_INT;
+			$stmt->bindValue($key, $val, $type);
+		}
 	}
 	protected function _optimize($params){
 		$res	= array();
