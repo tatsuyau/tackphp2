@@ -46,9 +46,9 @@ class database{
 			$stmt	= $this->dbh->prepare($sql);
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			$this->_bind($stmt, $params);
-			$res	= $stmt->execute($params);
+			$res	= $stmt->execute();
 		}catch(PDOException $e){
-			$messag = DEBUG_MODE ? $e->getMessage() : "SYSTEM ERROR";
+			$message = DEBUG_MODE ? $e->getMessage() : "SYSTEM ERROR";
 			throw new Exception($message);
 		}
 		$this->stmt	= $stmt;
