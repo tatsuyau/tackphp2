@@ -29,7 +29,7 @@ class Request{
 			$result	= $val;
 			break;
 		}
-		return $params;
+		return $result;
 	}
 	public static function getInt($key_name, $method=null){
 		$result	= self::getParam($key_name, $method);

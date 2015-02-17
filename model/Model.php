@@ -8,9 +8,6 @@ class Model{
 	public function __construct(){
 		$this->db	= database::getInstance(STAGE);
 		$this->is_connect	= $this->db->is_connect;
-		if($this->is_connect){
-			$this->_createTable();
-		}
 	}
 	public function getList($params=array()){
 		$sql	= $this->_createSelectSql($params);
@@ -25,14 +22,20 @@ class Model{
 		return $res ? $res : array();
 	}
 	public function addData($params){
-		if($this->created)	$params[$this->created]	= (!empty($params[$this->created])) ? $params[$this->created] : date('Y-m-d H:i:s');
-		if($this->modified)	$params[$this->modified]= (!empty($params[$this->modified])) ? $params[$this->modified] : date('Y-m-d H:i:s');
+		if($this->created){
+			$params[$this->created]	= (!empty($params[$this->created])) ? $params[$this->created] : date('Y-m-d H:i:s');
+		}
+		if($this->modified){
+			$params[$this->modified]= (!empty($params[$this->modified])) ? $params[$this->modified] : date('Y-m-d H:i:s');
+		}
 		$sql	= $this->_createInsertSql($params);
 		$res	= $this->db->execQuery($sql, $params);
 		return $res;
 	}
 	public function setData($updates, $conditions){
-		if($this->modified)	$updates[$this->modified]	= (!empty($updates[$this->modified])) ? $updates[$this->modified] : date('Y-m-d H:i:s');
+		if($this->modified){
+			$updates[$this->modified]	= (!empty($updates[$this->modified])) ? $updates[$this->modified] : date('Y-m-d H:i:s');
+		}
 		$sql	= $this->_createUpdateSql($updates, $conditions);
 		$params	= array_merge($updates, $conditions);
 		$res	= $this->db->execQuery($sql, $params);
@@ -60,7 +63,14 @@ class Model{
 	public function rollback(){
 		return $this->db->rollback();
 	}
-	protected function _createTable(){
+	public function hasTable($table_name=null){
+		if(!$table_name)	$table_name	= $this->_getTableName();
+		$db_info	= $this->db->getInfo();
+		$sql	= "SHOW TABLES FROM " . $db_info['dbname'] . " LIKE '" . $table_name . "'";
+		$this->db->execQuery($sql);
+		return $this->db->fetch() ? true : false;
+	}
+	public function createTable(){
 		if(empty($this->columns))	return ;
 		$sql	= "CREATE TABLE IF NOT EXISTS " . $this->_getTableName() . " ( ";
 		$i	= 0;
@@ -72,6 +82,9 @@ class Model{
 		$sql	.= ") engine=InnoDB ";
 		$res	= $this->db->execQuery($sql);
 		return $res;
+	}
+	public function getTableName(){
+		return $this->_getTableName();
 	}
 	protected function _getTableName(){
 		if(!empty($this->table_name))	return $this->table_name;

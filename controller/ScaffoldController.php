@@ -11,6 +11,7 @@ class ScaffoldController extends Controller{
 		$this->model_name	= $model_name;
 	}
 	public function index(){
+		if(!$this->ScaffoldModel->hasTable())	$this->redirect($this->controller_name . "/start");
 		$primary_key	= $this->_getPrimaryKey();
 		$column_list	= $this->ScaffoldModel->getColumnList();
 		$list	= $this->ScaffoldModel->getList();
@@ -41,7 +42,7 @@ class ScaffoldController extends Controller{
 	public function add(){
 		if(Request::hasPost()){
 			$this->ScaffoldModel->addData(Request::getParams("POST"));
-			$this->redirect("/" . $this->controller_name);
+			$this->redirect($this->controller_name);
 		}
 		$column_list	= $this->ScaffoldModel->getColumnList();
 		$this->set("column_list", $column_list);
@@ -52,7 +53,18 @@ class ScaffoldController extends Controller{
 		$data	= $this->ScaffoldModel->getData(array($primary_key => $id));
 		if(!$data)	$this->error();
 		$res	= $this->ScaffoldModel->deleteData(array($primary_key => $id));
-		$this->redirect("/" . $this->controller_name);
+		$this->redirect($this->controller_name);
+	}
+	public function start($install=false){
+		if($this->ScaffoldModel->hasTable())	$this->redirect($this->controller_name);
+		$has_created = false;
+		if($install){
+			$this->ScaffoldModel->createTable();
+			$has_created = true;
+		}
+		$this->set("table_name", $this->ScaffoldModel->getTableName());
+		$this->set("has_created", $has_created);
+		$this->render("scaffold/start");
 	}
 	protected function _getModelName(){
 		if($this->model_name)	return $this->model_name;

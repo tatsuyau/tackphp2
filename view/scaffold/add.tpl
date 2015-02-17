@@ -1,5 +1,5 @@
-<h2><a href="<?php Html::path("/" . $this->controller_name . "/"); ?>"><?php h($this->model_name); ?></a></h2>
-<form action="<?php Html::path("/" . $this->controller_name . "/add"); ?>" method="post">
+<h2><a href="<?php Html::path($this->controller_name . "/"); ?>"><?php h($this->model_name); ?></a></h2>
+<form action="<?php Html::path($this->controller_name . "/add"); ?>" method="post">
 <table class="table">
 <?php foreach($column_list as $val): ?>
 <?php if($val == $this->ScaffoldModel->created || $val == $this->ScaffoldModel->modified) continue; ?>

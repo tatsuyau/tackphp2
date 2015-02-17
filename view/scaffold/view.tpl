@@ -1,4 +1,4 @@
-<h2><a href="<?php Html::path("/" . $this->controller_name . "/"); ?>"><?php h($this->model_name); ?></a></h2>
+<h2><a href="<?php Html::path($this->controller_name . "/"); ?>"><?php h($this->model_name); ?></a></h2>
 
 <table class="table">
 <?php foreach($data as $key => $val): ?>

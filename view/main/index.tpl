@@ -1,5 +1,5 @@
 <h1><?php h($message); ?> tackphp!</h1>
-<p><a href="<?php Html::path("/main/index/Welcome"); ?>">Welcome</a></p>
+<p><a href="<?php Html::path("main/index/Welcome"); ?>">Welcome</a></p>
 <p>
 <?php h($message); ?>!<br />
 このページが正常に表示されていますか？<br />
@@ -21,5 +21,5 @@ with tack, you can.
 ここではScaffoldControllerを継承して作成したSampleControllerでScaffoldを試してみます。<br />
 Scaffoldではテーブルの作成も自動的に行います！<br />
 (model/Sample.phpに設定が書いてあります。)<br />
-<a href="<?php Html::path("/sample"); ?>">SampleScaffold</a>
+<a href="<?php Html::path("sample"); ?>">SampleScaffold</a>
 </p>
