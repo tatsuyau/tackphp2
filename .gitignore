@@ -1,3 +1,5 @@
 stage.php
 log/*.log
+composer.phar
+composer.lock
 vendor/

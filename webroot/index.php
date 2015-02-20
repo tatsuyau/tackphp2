@@ -13,7 +13,7 @@ define('LOG_DIR',	APP_ROOT . "log" . DS);
 define('STAGE',		require_once(APP_ROOT . "stage.php"));
 
 // composer
-// require COMPOSER . 'autoload.php';
+require COMPOSER_DIR . 'autoload.php';
 
 function classAutoload($class_name){
 	$controller_file = CONTROLLER_DIR . $class_name . ".php";
