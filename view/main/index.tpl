@@ -23,3 +23,4 @@ Scaffoldではテーブルの作成も自動的に行います！<br />
 (model/Sample.phpに設定が書いてあります。)<br />
 <a href="<?php Html::path("sample"); ?>">SampleScaffold</a>
 </p>
+

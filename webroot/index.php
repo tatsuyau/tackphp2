@@ -9,6 +9,7 @@ define('VIEW_DIR',	APP_ROOT . "view" . DS);
 define('LIB_DIR',	APP_ROOT . "mylib" . DS);
 define('COMPOSER_DIR',	APP_ROOT . "vendor" . DS);
 define('LAYOUT_DIR',	VIEW_DIR . "layout" . DS);
+define('LOG_DIR',	APP_ROOT . "log" . DS);
 define('STAGE',		require_once(APP_ROOT . "stage.php"));
 
 // composer
@@ -39,6 +40,9 @@ require_once APP_ROOT . "function.php";
 require_once APP_ROOT . "database.php";
 require_once APP_ROOT . "Bootstrap.php";
 
-session_start();
+if(DEBUG_MODE)	ini_set( 'display_errors', 1 );
+
+Session::start();
+
 $Bootstrap = new Bootstrap();
-$Bootstrap->dispatch();
+$Bootstrap->dispatch("main", "index");
