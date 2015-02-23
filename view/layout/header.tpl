@@ -4,7 +4,7 @@
 			<button class="navbar-toggle" data-toggle="collapse" data-target=".target">
 				<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<?php Html::path(); ?>"><?php h(APP_NAME); ?></a>
+			<a class="navbar-brand" href="<?php Html::path(); ?>"><?php h(PROJECT_TITLE); ?></a>
 		</div>
 
 		<div class="collapse navbar-collapse target">

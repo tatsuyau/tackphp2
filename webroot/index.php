@@ -1,8 +1,9 @@
 <?php
+
 define('DS', DIRECTORY_SEPARATOR);
 define('APP_ROOT', dirname(dirname(__FILE__)) . DS);
 //define('URL_ROOT',  "/");
-define('URL_ROOT',  "/tackphp/");	
+define('URL_ROOT',  "/tackphp/");
 define('CONTROLLER_DIR',APP_ROOT . "controller" . DS);
 define('MODEL_DIR',	APP_ROOT . "model" . DS);
 define('VIEW_DIR',	APP_ROOT . "view" . DS);
@@ -10,10 +11,10 @@ define('LIB_DIR',	APP_ROOT . "mylib" . DS);
 define('COMPOSER_DIR',	APP_ROOT . "vendor" . DS);
 define('LAYOUT_DIR',	VIEW_DIR . "layout" . DS);
 define('LOG_DIR',	APP_ROOT . "log" . DS);
-define('STAGE',		require_once(APP_ROOT . "stage.php"));
+define('ENVIRONMENT', require_once(APP_ROOT . "environment.php"));
 
 // composer
-require COMPOSER_DIR . 'autoload.php';
+if (file_exists(COMPOSER_DIR . 'autoload.php')) require COMPOSER_DIR . 'autoload.php';
 
 function classAutoload($class_name){
 	$controller_file = CONTROLLER_DIR . $class_name . ".php";

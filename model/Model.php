@@ -6,7 +6,7 @@ class Model{
 	protected $db;
 	protected $table_name;
 	public function __construct(){
-		$this->db	= database::getInstance(STAGE);
+		$this->db	= database::getInstance(ENVIRONMENT);
 		$this->is_connect	= $this->db->is_connect;
 	}
 	public function getList($params=array()){
