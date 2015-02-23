@@ -7,8 +7,8 @@ class MainController extends BaseController{
 		$this->set("message", $message);
 		$this->set("is_connect", $this->Model->is_connect);
 
-        $validation_errors = $this::validation_check(Request::getParams("GET"));
-        if($validation_errors) $this->error($validation_errors);
+        $validation_errors = $this::_exec_validation(Request::getParams("GET"));
+        if(!empty($validation_errors)) $this->error($validation_errors);
 
 		$this->render();
 	}
