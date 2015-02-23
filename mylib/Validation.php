@@ -9,7 +9,8 @@ class Validation
     protected $replace_tags = [':field', ':label', ':value', ':rule'];
     protected $missing_error_message = '該当するエラーメッセージが存在しません。';
     protected $error_messages = [
-        'required' => ':label は必須入力です。',
+        'required_param' => ':label パラメータを指定してください。',
+        'required_form' => ':label の項目が空欄です。',
         'min_length' => ':label は :param:1 文字以上で入力して下さい。',
         'max_length' => ':label は :param:1 文字以下で入力して下さい。',
         'exact_length' => ':label は :param:1 文字で入力して下さい。',
@@ -59,10 +60,22 @@ class Validation
 
     public function run($params)
     {
-        foreach ($params as $k => $v){
-            foreach ($this->rule_set as $k2 => $v2){
-                if($k === $v2["name"]) {
-                    $this->_check_validation($k, $v, $v2["rules"], $v2["label"]);
+
+        foreach ($this->rule_set as $k => $v){
+            $is_find = false;
+            foreach ($params as $k2 => $v2){
+                if($k2 === $v["name"]) {
+                    $this->_check_validation($k2, $v2, $v["rules"], $v["label"]);
+                    $is_find = true;
+                    break;
+                }
+            }
+
+            // 必須パラメータの未指定チェック
+            if($is_find) continue;
+            foreach($v["rules"] as $rule_data){
+                if($rule_data[0] == 'required_param'){
+                    $this->_set_error($rule_data[0], $v["name"]);
                     break;
                 }
             }
@@ -89,8 +102,8 @@ class Validation
     protected function _filter_rule($rule_name, $rule_val, $rule_label, $input_val)
     {
         switch($rule_name) {
-            case 'required':
-                if (!$this->__validation_require($input_val)) {
+            case 'required_form':
+                if (!$this->__validation_require_form($input_val)) {
                     $this->_set_error($rule_name, $rule_label, $rule_val);
                 }
                 break;
@@ -147,7 +160,7 @@ class Validation
         return ($val === false or $val === null or $val === '' or $val === array());
     }
 
-    protected function _set_error($rule_name, $rule_label, $rule_val)
+    protected function _set_error($rule_name, $rule_label, $rule_val = null)
     {
 
         if ($this->_empty($this->error_messages[$rule_name])) {
@@ -177,7 +190,7 @@ class Validation
      * private
      */
 
-    private function __validation_require($input)
+    private function __validation_require_form($input)
     {
         return !$this->_empty($input);
     }

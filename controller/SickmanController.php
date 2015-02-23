@@ -19,8 +19,8 @@ class SickmanController extends BaseController{
         /* バリデーションルールはこちらに追加してください */
 
         $this->validation->add('page', 'ページ')
-            ->add_rule('required')
-            ->add_rule('exact_length', 2)
+            ->add_rule('required_param')
+            ->add_rule('required_form')
             ->add_rule('valid_string', ['numeric']);
 
         $this->validation->add('email', 'メールアドレス')
