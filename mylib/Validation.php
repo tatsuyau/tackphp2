@@ -16,7 +16,7 @@ class Validation
         'exact_length' => ':label は :param:1 文字で入力して下さい。',
         'match_value' => ':label は使用できない文字が含まれています。使用可能な文字 [:param:1] ',
         'match_pattern' => ':label は :param:2 で入力して下さい。',
-        'match_field' => ':label は :param:1 と異なっています。',
+        //'match_field' => ':label は :param:1 と異なっています。',
         'valid_email' => ':label は正しいメールアドレスの形式ではありません。',
         'valid_emails' => ':label は有効でないメールアドレスが含まれています。',
         'valid_url' => ':label は有効なURLではありません。',
@@ -47,8 +47,19 @@ class Validation
     public function add($name, $label = '')
     {
         $this->add_count++;
+
+        // 継承先でルールの上書きがあれば、古いルールを削除
+       if (!empty($this->rule_set) && is_array($this->rule_set)){
+            foreach ($this->rule_set as $k => $v) {
+                if ($v["name"] == $name){
+                    unset($this->rule_set[$k]);
+                }
+            }
+        }
+
         $this->rule_set[$this->add_count]['name'] = $name;
         $this->rule_set[$this->add_count]['label'] = $label;
+
         return $this;
     }
 
@@ -61,10 +72,14 @@ class Validation
     public function run($params)
     {
 
+        $this->rule_set = array_values($this->rule_set);
+
+        dump($this->rule_set);
+
         foreach ($this->rule_set as $k => $v){
             $is_find = false;
             foreach ($params as $k2 => $v2){
-                if($k2 === $v["name"]) {
+                if ($k2 === $v["name"]) {
                     $this->_check_validation($k2, $v2, $v["rules"], $v["label"]);
                     $is_find = true;
                     break;
@@ -72,9 +87,9 @@ class Validation
             }
 
             // 必須パラメータの未指定チェック
-            if($is_find) continue;
-            foreach($v["rules"] as $rule_data){
-                if($rule_data[0] == 'required_param'){
+            if ($is_find) continue;
+            foreach ($v["rules"] as $rule_data){
+                if ($rule_data[0] == 'required_param'){
                     $this->_set_error($rule_data[0], $v["name"]);
                     break;
                 }
@@ -87,138 +102,39 @@ class Validation
     {
         return $this->errors;
     }
-
-    /*
-     * protected
-     */
-
-    protected function _check_validation($name, $input_val = [], $rule_list, $rule_label)
-    {
-        foreach($rule_list as $rule_data){
-            $this->_filter_rule($rule_data[0], $rule_data[1], $rule_label, $input_val);
-        }
-    }
-
-    protected function _filter_rule($rule_name, $rule_val, $rule_label, $input_val)
-    {
-        switch($rule_name) {
-            case 'required_form':
-                if (!$this->__validation_require_form($input_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'min_length':
-                if (!$this->__validation_min_length($input_val, $rule_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'max_length':
-                if (!$this->__validation_max_length($input_val, $rule_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'exact_length':
-                if (!$this->__validation_exact_length($input_val, $rule_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'numeric_min':
-                if (!$this->__validation_numeric_min($input_val, $rule_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'numeric_max':
-                if (!$this->__validation_numeric_max($input_val, $rule_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'valid_string':
-                if (!$this->__validation_valid_string($input_val, $rule_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'valid_email':
-                if (!$this->__validation_valid_email($input_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-            case 'valid_emails':
-                if (!$this->__validation_valid_emails($input_val)) {
-                    $this->_set_error($rule_name, $rule_label, $rule_val);
-                }
-                break;
-
-
-
-            default:
-                break;
-        }
-    }
-
-    protected static function _empty($val)
+    public function validation_empty($val)
     {
         return ($val === false or $val === null or $val === '' or $val === array());
     }
-
-    protected function _set_error($rule_name, $rule_label, $rule_val = null)
+    public function validation_require_form($input)
     {
-
-        if ($this->_empty($this->error_messages[$rule_name])) {
-            $this->errors[] = $this->missing_error_message;
-        } else {
-            $error_message = $this->error_messages[$rule_name];
-            $error_message = str_replace(':label', $rule_label, $error_message);
-            if(is_array($rule_val)) {
-                $param_num = 1;
-                foreach ($rule_val as $val) {
-                    $error_message = str_replace(':param:' . $param_num++, $val, $error_message);
-                }
-            } elseif (!$this->_empty($rule_val)) {
-                $error_message = str_replace(':param:1', $rule_val, $error_message);
-            }
-
-            foreach($this->replace_words as $k => $v){
-                $error_message = str_replace($k, $v, $error_message);
-            }
-
-            $this->errors[] = $error_message;
-        }
-
+        return !$this->validation_empty($input);
     }
-
-    /*
-     * private
-     */
-
-    private function __validation_require_form($input)
-    {
-        return !$this->_empty($input);
-    }
-    private function __validation_min_length($input, $rule)
+    public function validation_min_length($input, $rule)
     {
         return mb_strlen($input) >= $rule;
     }
-    private function __validation_max_length($input, $rule)
+    public function validation_max_length($input, $rule)
     {
         return mb_strlen($input) <= $rule;
     }
-    private function __validation_exact_length($input, $rule)
+    public function validation_exact_length($input, $rule)
     {
         return mb_strlen($input) == $rule;
     }
-    private function __validation_numeric_min($input, $rule)
+    public function validation_match_value($input, $rule, $strict = false)
     {
-        return $input >= $rule;
+        return ($input === $input || ( ! $strict && $input == $input));
     }
-    private function __validation_numeric_max($input, $rule)
+    public function validation_match_pattern($input, $rule)
     {
-        return $input <= $rule;
+        return preg_match($rule, $input) > 0;
     }
-    private function __validation_valid_email($input)
+    public function validation_valid_email($input)
     {
         return filter_var($input, FILTER_VALIDATE_EMAIL);
     }
-    private function __validation_valid_emails($input, $separator = ',')
+    public function validation_valid_emails($input, $separator = ',')
     {
         $emails = explode($separator, $input);
 
@@ -229,10 +145,24 @@ class Validation
         }
         return true;
     }
-    private function __validation_valid_string($input, $rule_list = ['alpha', 'utf8'])
+    public function validation_valid_url($input)
     {
-        //if ($this::_empty($input)) return true;
-
+        return filter_var($input, FILTER_VALIDATE_URL);
+    }
+    public function validation_valid_ip($input)
+    {
+        return filter_var($input, FILTER_VALIDATE_IP);
+    }
+    public function validation_numeric_min($input, $rule)
+    {
+        return $input >= $rule;
+    }
+    public function validation_numeric_max($input, $rule)
+    {
+        return $input <= $rule;
+    }
+    public function validation_valid_string($input, $rule_list = ['alpha', 'utf8'])
+    {
         if (!is_array ($rule_list)) {
             if ($rule_list == 'alpha') {
                 $rule_list = ['alpha', 'utf8'];
@@ -278,5 +208,114 @@ class Validation
         $pattern .= in_array('utf8', $rule_list) || in_array('specials', $rule_list) ? 'u' : '';
 
         return preg_match($pattern, $input) > 0;
+    }
+
+    /*
+     * protected
+     */
+
+    protected function _check_validation($name, $input_val = [], $rule_list, $rule_label)
+    {
+        foreach($rule_list as $rule_data){
+            $this->_filter_rule($rule_data[0], $rule_data[1], $rule_label, $input_val);
+        }
+    }
+
+    protected function _filter_rule($rule_name, $rule_val, $rule_label, $input_val)
+    {
+        switch($rule_name) {
+            case 'required_form':
+                if (!$this->validation_require_form($input_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'min_length':
+                if (!$this->validation_min_length($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'max_length':
+                if (!$this->validation_max_length($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'exact_length':
+                if (!$this->validation_exact_length($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'match_value':
+                if (!$this->validation_exact_length($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'match_pattern':
+                if (!$this->validation_exact_length($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'valid_email':
+                if (!$this->validation_valid_email($input_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'valid_emails':
+                if (!$this->validation_valid_emails($input_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'valid_url':
+                if (!$this->validation_valid_url($input_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'valid_ip':
+                if (!$this->validation_valid_ip($input_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'numeric_min':
+                if (!$this->validation_numeric_min($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'numeric_max':
+                if (!$this->validation_numeric_max($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            case 'valid_string':
+                if (!$this->validation_valid_string($input_val, $rule_val)) {
+                    $this->_set_error($rule_name, $rule_label, $rule_val);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected function _set_error($rule_name, $rule_label, $rule_val = null)
+    {
+
+        if ($this->validation_empty($this->error_messages[$rule_name])) {
+            $this->errors[] = $this->missing_error_message;
+        } else {
+            $error_message = $this->error_messages[$rule_name];
+            $error_message = str_replace(':label', $rule_label, $error_message);
+            if(is_array($rule_val)) {
+                $param_num = 1;
+                foreach ($rule_val as $val) {
+                    $error_message = str_replace(':param:' . $param_num++, $val, $error_message);
+                }
+            } elseif (!$this->validation_empty($rule_val)) {
+                $error_message = str_replace(':param:1', $rule_val, $error_message);
+            }
+
+            foreach($this->replace_words as $k => $v){
+                $error_message = str_replace($k, $v, $error_message);
+            }
+
+            $this->errors[] = $error_message;
+        }
     }
 }

@@ -16,6 +16,9 @@ class SickmanController extends BaseController{
     // 特定のコントローラだけで使うバリデーションルールは分けて定義できる
     protected function _set_validation_rules()
     {
+
+        parent::_set_validation_rules();
+
         /* バリデーションルールはこちらに追加してください */
 
         $this->validation->add('page', 'ページ')

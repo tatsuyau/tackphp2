@@ -29,6 +29,12 @@ class BaseController extends Controller
             ->add_rule('numeric_max', 100)
             ->add_rule('valid_string', ['numeric']);
 
+        $this->validation->add('ip', 'IPアドレス')
+            ->add_rule('required_param')
+            ->add_rule('valid_ip');
+        $this->validation->add('url', 'URL')
+            ->add_rule('valid_url');
+
     }
 
     protected function _exec_validation($params)
