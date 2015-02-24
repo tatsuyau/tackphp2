@@ -2,7 +2,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('APP_ROOT', dirname(dirname(__FILE__)) . DS);
 //define('URL_ROOT',  "/");
-define('URL_ROOT',  "/tackphp/");
+define('URL_ROOT',  "/tackphp/");	// add subdir
 define('MY_URL', "http://" . $_SERVER['HTTP_HOST'] . URL_ROOT);
 define('CONTROLLER_DIR',APP_ROOT . "controller" . DS);
 define('MODEL_DIR',	APP_ROOT . "model" . DS);
