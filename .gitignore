@@ -2,4 +2,5 @@ stage.php
 log/*.log
 composer.phar
 composer.lock
+Procfile
 vendor/
