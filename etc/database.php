@@ -1,17 +1,47 @@
 <?php
 // Using PDO
 class database{
-	protected $config = array(
-		'develop' => array(
-			'type'	=> 'mysql',
-			'dbname'=> 'tackphp',
-			'host'	=> 'localhost',
-			'user'	=> 'root',
-			'password' => 'vagrant',
-			'table_prefix'	=> "tackphp_",
+
+    // 環境の切替はenviroment.phpから行ってください
+	protected $config = [
+		'production' => [
+			'type'	=> '',
+			'dbname'=> '',
+			'host'	=> '',
+			'user'	=> '',
+			'password' => '',
+			'table_prefix'	=> '',
 			'encoding' => 'utf8',
-		),
-	);
+		],
+        'staging' => [
+            'type'	=> '',
+            'dbname'=> '',
+            'host'	=> '',
+            'user'	=> '',
+            'password' => '',
+            'table_prefix'	=> '',
+            'encoding' => 'utf8',
+        ],
+        'development' => [
+            'type'	=> 'mysql',
+            'dbname'=> 'tackphp',
+            'host'	=> 'localhost',
+            'user'	=> 'root',
+            'password' => 'vagrant',
+            'table_prefix'	=> 'tackphp_',
+            'encoding' => 'utf8',
+        ],
+        'test' => [
+            'type'	=> '',
+            'dbname'=> '',
+            'host'	=> '',
+            'user'	=> '',
+            'password' => '',
+            'table_prefix'	=> '',
+            'encoding' => 'utf8',
+        ],
+	];
+
 	public static $_instance = array();
 	public $is_connect = false;
 	protected $info;
