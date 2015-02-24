@@ -1,8 +1,6 @@
 <?php
 class MainController extends BaseController{
-	const APP_KEY = "k3hHiYl6wRqC8NpUYVGJ9ndTZ";
-	const SECRET = "WRCkBs8MHjKzYQGt99peSo6JnVbAtUgG8Lf1T2QJjeSSeUsog4";
-	public function __construct(){
+    public function __construct(){
 		parent::__construct();
 	}
 	public function index($message="Hello"){
