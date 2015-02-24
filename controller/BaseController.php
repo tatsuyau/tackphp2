@@ -41,11 +41,10 @@ class BaseController extends Controller
     {
         $error_messages = (!$this->validation->run($params)) ? $this->validation->show_errors() : null;
         if(empty($error_messages)) return false;
-
         // TODO エラー文を配列で受け取ってくれないっぽいので、とりあえず平文に。
         $tackphp_error_message = "";
         foreach($error_messages as $error_message){
-            $tackphp_error_message .= $error_message."<br>";
+            $tackphp_error_message .= $error_message."<br />";
         }
         return $tackphp_error_message;
     }

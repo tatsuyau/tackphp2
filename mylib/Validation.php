@@ -74,7 +74,7 @@ class Validation
 
         $this->rule_set = array_values($this->rule_set);
 
-        dump($this->rule_set);
+        // dump($this->rule_set);
 
         foreach ($this->rule_set as $k => $v){
             $is_find = false;

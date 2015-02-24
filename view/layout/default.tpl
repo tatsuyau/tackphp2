@@ -7,8 +7,8 @@
 <meta name="robots" content="index,follow,noarchive" />
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="<?php Html::path("/css/style.css"); ?>">
-<script src="<?php Html::path('/js/client.js?' . date('s')); ?>"></script>
+<link rel="stylesheet" href="<?php Html::path("css/style.css"); ?>">
+<script src="<?php Html::path('js/client.js'); ?>"></script>
 <title><?php h(PROJECT_TITLE); ?></title>
 
 <!-- body -->
