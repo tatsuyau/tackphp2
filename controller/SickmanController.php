@@ -1,14 +1,20 @@
 <?php
 
 // バリデーションテスト用
-class SickmanController extends BaseController{
-    public function __construct(){
+class SickmanController extends BaseController
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-    public function index($message="Hello"){
+
+    public function index($message = "Hello")
+    {
 
         $validation_errors = $this::_exec_validation(Request::getParams("GET"));
-        if(!empty($validation_errors)) $this->error($validation_errors);
+        if (!empty($validation_errors)) {
+            $this->error($validation_errors);
+        }
 
         $this->render();
     }

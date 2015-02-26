@@ -5,11 +5,12 @@ class BaseController extends Controller
 
     protected $validation;
 
-	public function __construct(){
+    public function __construct()
+    {
         $this->validation = new Validation();
         $this->_set_validation_rules();
-		parent::__construct();
-	}
+        parent::__construct();
+    }
 
     protected function _set_validation_rules()
     {
@@ -40,12 +41,15 @@ class BaseController extends Controller
     protected function _exec_validation($params)
     {
         $error_messages = (!$this->validation->run($params)) ? $this->validation->show_errors() : null;
-        if(empty($error_messages)) return false;
+        if (empty($error_messages)) {
+            return false;
+        }
         // TODO エラー文を配列で受け取ってくれないっぽいので、とりあえず平文に。
         $tackphp_error_message = "";
-        foreach($error_messages as $error_message){
-            $tackphp_error_message .= $error_message."<br />";
+        foreach ($error_messages as $error_message) {
+            $tackphp_error_message .= $error_message . "<br />";
         }
+
         return $tackphp_error_message;
     }
 }

@@ -1,11 +1,11 @@
 <h1><?php h($message); ?> tackphp!</h1>
-<p><a href="<?php Html::path("main/index/Welcome"); ?>">Welcome</a></p>
+<p><a href="<?php Html::path(" main/index/Welcome"); ?>">Welcome</a></p>
 <p>
-<?php h($message); ?>!<br />
-このページが正常に表示されていますか？<br />
-されていれば無事tackphp2がインストールされています！<br />
-tackphp2でちょっとだけ機能が増えました^^<br />
-with tack, you can.
+	<?php h($message); ?>!<br/>
+	このページが正常に表示されていますか？<br/>
+	されていれば無事tackphp2がインストールされています！<br/>
+	tackphp2でちょっとだけ機能が増えました^^<br/>
+	with tack, you can.
 </p>
 
 <h2>1. データベースへのアクセス</h2>
@@ -17,10 +17,10 @@ with tack, you can.
 
 <h2>2. Scaffold</h2>
 <p>
-データベースへの接続が完了したらScaffoldを試してみましょう。<br />
-ここではScaffoldControllerを継承して作成したSampleControllerでScaffoldを試してみます。<br />
-Scaffoldではテーブルの作成も自動的に行います！<br />
-(model/Sample.phpに設定が書いてあります。)<br />
-<a href="<?php Html::path("sample"); ?>">SampleScaffold</a>
+	データベースへの接続が完了したらScaffoldを試してみましょう。<br/>
+	ここではScaffoldControllerを継承して作成したSampleControllerでScaffoldを試してみます。<br/>
+	Scaffoldではテーブルの作成も自動的に行います！<br/>
+	(model/Sample.phpに設定が書いてあります。)<br/>
+	<a href="<?php Html::path(" sample"); ?>">SampleScaffold</a>
 </p>
 

@@ -1,3 +1,5 @@
 <?php
-class SampleController extends ScaffoldController{
+
+class SampleController extends ScaffoldController
+{
 }
