@@ -2,9 +2,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?php h(PROJECT_DESCRIPTION); ?>" />
+<meta name="description" content="<?php h(PROJECT_DESCRIPTION); ?>"/>
 <meta name="keyword" content="<?php h(PROJECT_KEYWORDS); ?>">
-<meta name="robots" content="index,follow,noarchive" />
+<meta name="robots" content="index,follow,noarchive"/>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="<?php Html::path("/css/style.css"); ?>">
