@@ -69,7 +69,7 @@ class database{
 		return self::$_instance[$id];
 	}
 	public function execQuery($sql, $params=array()){
-		if(!$this->dbh)	throw new Exception("CAN'T CONNECT DATABASE");
+		if(!$this->dbh)	throw new TackphpSystemException("CAN'T CONNECT DATABASE");
 		$params	= $this->_optimize($params);
 		try{
 			SqlLog::set($sql, $params);
@@ -79,7 +79,7 @@ class database{
 			$res	= $stmt->execute();
 		}catch(PDOException $e){
 			$message = DEBUG_MODE ? $e->getMessage() : "SYSTEM ERROR";
-			throw new Exception($message);
+			throw new TackphpSystemException($message);
 		}
 		$this->stmt	= $stmt;
 		return $res;

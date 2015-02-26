@@ -12,9 +12,14 @@ class Bootstrap{
 			$res	= $this->_check();
 			if($res !== true){
 				$res	= DEBUG_MODE ? $res : "Page Not Found";
-				throw new Exception($res);
+				throw new TackphpSystemException($res);
 			}
 			$this->_run();
+        }catch(TackphpSystemException $se){
+            $message    = DEBUG_MODE ? $se->getMessage() : "Page Not Found";
+            $this->_error($message);
+        }catch(TackphpErrorException $ee){
+            $this->_error($ee->getMessage());
 		}catch(Exception $e){
 			$this->_error($e->getMessage());
 		}

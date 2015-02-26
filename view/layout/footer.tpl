@@ -1,3 +1,4 @@
+<hr />
 <?php if(DEBUG_MODE): ?>
 <!-- debug -->
 	<div class="container">

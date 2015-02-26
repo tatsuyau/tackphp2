@@ -25,7 +25,7 @@ class Controller{
 		if(!$view)	$view = $this->controller_name . DS . $this->action_name;
 		$view_file = VIEW_DIR . $view . ".tpl";
 		if(DEBUG_MODE){
-			if(!file_exists($view_file))	throw new Exception("VIEW FILE NOT FOUND: " . $view_file);
+			if(!file_exists($view_file))	throw new TackphpSystemException("VIEW FILE NOT FOUND: " . $view_file);
 		}
 		foreach($this->_set_list as $key => $val){
 			$$key	= $val;
@@ -54,7 +54,7 @@ class Controller{
 	}
 	protected function error($message=null){
 		if(!$message)	$message	= "ERROR Called.";
-		throw new Exception($message);
+		throw new TackphpErrorException($message);
 	}
 	protected function begin(){
 		return $this->Model->beginTransaction();

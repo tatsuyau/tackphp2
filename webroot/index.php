@@ -38,6 +38,7 @@ require_once ETC_DIR . "config.php";
 require_once ETC_DIR . "error_config.php";
 require_once ETC_DIR . "function.php";
 require_once ETC_DIR . "database.php";
+require_once ETC_DIR . "exceptions.php";
 require_once ETC_DIR . "Bootstrap.php";
 if(file_exists(COMPSER_DIR . "autoload.php"))	require COMPOSER_DIR . 'autoload.php';
 
