@@ -19,28 +19,28 @@ class BaseController extends Controller
          */
 
         $this->validation->add('page', 'ページ')
-            ->add_rule('required')
-            ->add_rule('min_length', 1)
-            ->add_rule('max_length', 3)
-            ->add_rule('valid_string', ['numeric']);
+            ->addRule('required')
+            ->addRule('min_length', 1)
+            ->addRule('max_length', 3)
+            ->addRule('valid_string', ['numeric']);
 
         $this->validation->add('limit', '表示件数')
-            ->add_rule('required')
-            ->add_rule('numeric_min', 1)
-            ->add_rule('numeric_max', 100)
-            ->add_rule('valid_string', ['numeric']);
+            ->addRule('required')
+            ->addRule('numeric_min', 1)
+            ->addRule('numeric_max', 100)
+            ->addRule('valid_string', ['numeric']);
 
         $this->validation->add('ip', 'IPアドレス')
-            ->add_rule('required_param')
-            ->add_rule('valid_ip');
+            ->addRule('required_param')
+            ->addRule('valid_ip');
         $this->validation->add('url', 'URL')
-            ->add_rule('valid_url');
+            ->addRule('valid_url');
 
     }
 
     protected function execValidation($params)
     {
-        $error_messages = (!$this->validation->run($params)) ? $this->validation->show_errors() : null;
+        $error_messages = (!$this->validation->run($params)) ? $this->validation->showErrors() : null;
         if (empty($error_messages)) {
             return false;
         }
