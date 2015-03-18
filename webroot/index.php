@@ -5,7 +5,6 @@ define('APP_ROOT', dirname(dirname(__FILE__)) . DS);
 //define('URL_ROOT',  "/");
 define('URL_ROOT', "/tackphp/");    // add subdirname
 define('MY_URL', "http://" . $_SERVER['HTTP_HOST'] . URL_ROOT);
-define('URL_ROOT', $_SERVER["REQUEST_URI"]);
 define('CONTROLLER_DIR', APP_ROOT . "controller" . DS);
 define('MODEL_DIR', APP_ROOT . "model" . DS);
 define('VIEW_DIR', APP_ROOT . "view" . DS);
@@ -43,7 +42,7 @@ require_once ETC_DIR . "function.php";
 require_once ETC_DIR . "database.php";
 require_once ETC_DIR . "exceptions.php";
 require_once ETC_DIR . "Bootstrap.php";
-if (file_exists(COMPSER_DIR . "autoload.php")) {
+if (file_exists(COMPOSER_DIR . "autoload.php")) {
     require COMPOSER_DIR . 'autoload.php';
 }
 
