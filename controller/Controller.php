@@ -6,7 +6,7 @@ class Controller
     public $controller_name;
     public $action_name;
     public $debug_list = array();
-    protected $_set_list = array();
+    protected $_set_list = array('_js' => array());
 
     protected $Model;
 
@@ -24,9 +24,10 @@ class Controller
     {
     }
 
-    protected function set($key, $val)
+    protected function set($key, $val, $to_js=false)
     {
         $this->_set_list[$key] = $val;
+        if($to_js)  $this->_set_list['_js'][$key]   = $val;
         JsonApi::set($key, $val);
     }
 
