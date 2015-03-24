@@ -1,5 +1,6 @@
 (function(){
-    var controller = tack.mvc.create({
+    // H1がクリックされるたびにカウントアップされるだけのサンプル
+    var controller = tack.controller.create({
         data: {},
         initialize: function(){
             this.index = function(){
