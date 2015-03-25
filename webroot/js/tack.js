@@ -21,7 +21,7 @@
                     type: 'add',
                     object: this
                 };
-            }else if(this.data[key].toString() != value.toString()){
+            }else if(JSON.stringify(this.data[key]) != JSON.stringify(value)){
                 this.data[key]  = value;
                 var p = {
                     name: key,
