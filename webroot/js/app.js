@@ -1,5 +1,6 @@
 (function(){
     // H1がクリックされるたびにカウントアップされるだけのサンプル
+    /*
     var controller = tack.controller.create({
         data: {},
         initialize: function(){
@@ -39,4 +40,5 @@
     $(function(){
         controller.index();
     });
+    */
 })();
